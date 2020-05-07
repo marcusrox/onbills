@@ -1,10 +1,13 @@
-# onbills
+# OnBills
 
-A new Flutter project.
+OnBills is a Mobile App to control payments of monthly bills.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This is a Pet Project, I have develop this to learn Flutter, a framework to Mobile Apps created by Google and Dart, a new Language Program, very elegant.
+
+I hope use this project to create a skeleton of application may be used to create other bussiness applications.
+To do this, I hove do implement a few of design patterns and lean to integrate with API to bussiness core and others requirements.
 
 A few resources to get you started if this is your first Flutter project:
 
