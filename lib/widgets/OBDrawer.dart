@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../screens/OBBillsScreen.dart';
+import 'package:onbills/screens/bills.screen.dart';
 
 class OBDrawer extends StatelessWidget {
   @override
@@ -26,7 +26,7 @@ class OBDrawer extends StatelessWidget {
               // ...
               // Then close the drawer
               print('Vai para OBBillsScreen');
-              Get.to(OBBillsScreen(title: 'Contas do mês'));
+              Get.to(BillsScreen());
               //Navigator.pop(context);
             },
           ),
