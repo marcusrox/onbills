@@ -2,11 +2,10 @@
 JSON para gerar o código
 {
     "title": "Conta de Luz",
-    "dueDay": 1,
-    "month": 5,
-    "year": 2020,
+    "dueDate": "2020-10-02",
     "dueValue": 123.51,
-    "paidValue": 0
+    "paidDate": ""
+    "paidValue": 0.0
 }
 
 ATENÇÂO: NÂO ALTERAR O CODIGO ABAIXO. 
@@ -18,37 +17,43 @@ import 'imodel.dart';
 
 class BillModel implements IModel {
   String title;
-  int dueDay;
-  int month;
-  int year;
+  DateTime dueDate;
   double dueValue;
+  DateTime paidDate;
   double paidValue;
+  String icon;
+  String paymentVoucher;
 
   BillModel(
       {this.title,
-      this.dueDay,
-      this.month,
-      this.year,
+      this.dueDate,
       this.dueValue,
-      this.paidValue});
+      this.paidDate,
+      this.paidValue,
+      this.icon,
+      this.paymentVoucher});
 
   BillModel.fromJson(Map<String, dynamic> json) {
     title = json['title'];
-    dueDay = json['dueDay'];
-    month = json['month'];
-    year = json['year'];
+    //dueDate = json['dueDate'];
+    dueDate = DateTime.parse(json['dueDate']);
     dueValue = json['dueValue'];
+    paidDate = DateTime.parse(json['paidDate']);
     paidValue = json['paidValue'];
+    icon = json['icon'];
+    paymentVoucher = json['paymentVoucher'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['title'] = this.title;
-    data['dueDay'] = this.dueDay;
-    data['month'] = this.month;
-    data['year'] = this.year;
+    //data['dueDate'] = this.dueDate;
+    data['dueDate'] = this.dueDate.toString();
     data['dueValue'] = this.dueValue;
+    data['paidDate'] = this.paidDate.toString();
     data['paidValue'] = this.paidValue;
+    data['icon'] = this.icon;
+    data['paymentVoucher'] = this.paymentVoucher;
     return data;
   }
 }
