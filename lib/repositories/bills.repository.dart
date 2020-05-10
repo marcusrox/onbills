@@ -1,41 +1,57 @@
+import 'dart:async';
+import 'package:sqflite/sqflite.dart';
 import 'package:onbills/models/bill.model.dart';
-import 'package:onbills/models/imodel.dart';
-import 'irepository.dart';
 
-class BillsRepository implements IRepository {
-  @override
-  List<BillModel> getAll() {
-    var bills = new List<BillModel>();
+import 'DatabaseHelper.dart';
 
-    List list = []; // obter do banco de dados SQL
-    for (dynamic item in list) {
-      BillModel bill = new BillModel(title: item["title"]);
-      bills.add(bill);
-    }
+class BillsRepository {
 
-    return bills;
+  Future<List<BillModel>> getAll() async {
+    // Get a reference to the database.
+    final Database db = await DatabaseHelper.instance.database;
+
+    // Query the table.
+    final List<Map<String, dynamic>> maps = await db.query('bills');
+
+    // Convert the List<Map<String, dynamic> into a List<Dog>.
+    return List.generate(maps.length, (i) {
+      return BillModel.fromJson(maps[i]);
+    });
   }
 
-  @override
-  BillModel get() {
-    return null;
+  // Esse método usa uma consulta bruta para fornecer a contagem de linhas.
+  Future<int> rowCount() async {
+    Database db = await DatabaseHelper.instance.database;
+    return Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM bills'));
   }
 
-  @override
-  bool insert(IModel bill) {
-    print('insert');
-    return true;
+  Future<BillModel> get(String id) async {
+    final Database db = await DatabaseHelper.instance.database;
+    final List<Map<String, dynamic>> maps = await db.query('bills', where: 'id = ?', whereArgs: [id]);
+    return BillModel.fromJson(maps[0]);
   }
 
-  //@override
-  bool update(IModel bill) {
-    print('update');
-    return true;
+  Future<int> insert(BillModel bill) async {
+    // Get a reference to the database.
+    Database db = await DatabaseHelper.instance.database;
+    // `conflictAlgorithm` to use in case the same dog is inserted twice.
+    // In this case, replace any previous data.
+    return await db.insert('bills', bill.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
-  //@override
-  bool delete(IModel bill) {
-    print('delete');
-    return true;
+  // Assumimos aqui que a coluna id no mapa está definida. Os outros
+  // valores das colunas serão usados para atualizar a linha.
+  Future<int> update(BillModel bill) async {
+    Database db = await DatabaseHelper.instance.database;
+    return await db
+        .update('bills', bill.toJson(), where: 'id = ?', whereArgs: [bill.id]);
+  }
+
+  // Exclui a linha especificada pelo id. O número de linhas afetadas é
+  // retornada. Isso deve ser igual a 1, contanto que a linha exista.
+  Future<int> delete(String id) async {
+    Database db = await DatabaseHelper.instance.database;
+    return await db.delete("bills", where: 'id = ?', whereArgs: [id]);
   }
 }

@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:onbills/models/bill.model.dart';
-//import 'package:onbills/widgets/OBBottomBar.dart';
+import 'package:intl/intl.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:onbills/repositories/bills.repository.dart';
+import 'package:onbills/utils/utils.dart';
 
 class BillPayScreen extends StatefulWidget {
   final String subtitle;
+  final String billId;
 
-  BillPayScreen({Key key, this.subtitle = "Pagar conta"}) : super(key: key);
+  BillPayScreen({Key key, this.subtitle = "Pagar conta", this.billId}) : super(key: key);
 
   @override
   _BillPayScreenState createState() => _BillPayScreenState();
@@ -18,29 +22,31 @@ class _BillPayScreenState extends State<BillPayScreen> {
   final TextEditingController _titleController = new TextEditingController();
   final TextEditingController _dueDateController = new TextEditingController();
   final TextEditingController _dueValueController = new TextEditingController();
-  final TextEditingController _paidValueController =
-      new TextEditingController();
+  final TextEditingController _paidValueController = new TextEditingController();
   final TextEditingController _paidDateController = new TextEditingController();
 
-  BillModel _bill;
+  BillModel _bill = BillModel();
 
   @override
   void initState() {
     super.initState();
+
     print('Carregar os dados!');
 
-    _bill = BillModel(
-        title: 'Dentista Lizzzz',
-        dueDate: DateTime.now(),
-        dueValue: 200.9,
-        paidValue: 0.0);
-
-    //_bill.title = "Teste";
-    _titleController.text = _bill.title;
-    _dueDateController.text = _bill.dueDate.toString();
-    _dueValueController.text = _bill.dueValue.toString();
-    _paidDateController.text = _bill.paidDate.toString();
-    _paidValueController.text = _bill.paidValue.toString();
+    if (widget.billId != null) {
+      _bill = BillModel(
+          title: 'Dentista Lizzzz',
+          dueDate: DateTime.now(),
+          dueValue: 200.9,
+          paidValue: null);
+      
+      // Colocar os valores formatados para interface nos controllers dos TextFormField
+      _titleController.text = _bill.title;
+      _dueDateController.text = Utils.datetimeToStr(_bill.dueDate);
+      _dueValueController.text = Utils.doubleToStr(_bill.dueValue);
+      _paidDateController.text = Utils.datetimeToStr(_bill.paidDate);
+      _paidValueController.text = Utils.doubleToStr(_bill.paidValue);
+    }
   }
 
   @override
@@ -58,20 +64,30 @@ class _BillPayScreenState extends State<BillPayScreen> {
       print('_submitForm');
 
       if (_formKey.currentState.validate()) {
+        _bill.id = Utils.uniqueKey();
         _bill.title = _titleController.text;
-        _bill.dueDate = DateTime.tryParse(_dueDateController.text);
-        _bill.dueValue = double.tryParse(_dueValueController.text);
-        _bill.paidDate = DateTime.tryParse(_paidDateController.text);
-        _bill.paidValue = double.tryParse(_paidValueController.text);
+        _bill.dueDate = Utils.strToDateTime(_dueDateController.text);
+        _bill.dueValue = Utils.strToDouble(_dueValueController.text);
+        _bill.paidDate = Utils.strToDateTime(_paidDateController.text);
+        _bill.paidValue = Utils.strToDouble(_paidValueController.text);
         //_bill.icon = _iconController.text;
         //_bill.paymentVoucher = _paymentVoucherController.text;
-        Get.snackbar(
-          'Pagamento registrado',
-          '_submitForm: ' + _bill.toJson().toString(),
-          icon: Icon(Icons.alarm),
-          barBlur: 20,
-        );
 
+        BillsRepository().insert(_bill).then((value) {
+          Get.snackbar(
+            'Pagamento registrado',
+            'Pagamento de conta registrada com sucesso!',
+            icon: Icon(Icons.alarm),
+            barBlur: 20,
+          );
+        }).catchError((error) {
+          Get.snackbar(
+            'Erro',
+            error.toString(),
+            icon: Icon(Icons.alarm),
+            barBlur: 20,
+          );
+        });
         print(_bill.toJson());
       }
     }
@@ -117,16 +133,23 @@ class _BillPayScreenState extends State<BillPayScreen> {
                           return null;
                         },
                       ),
-                      TextFormField(
-                        keyboardType: TextInputType.datetime,
+                      DateTimeField(
                         controller: _dueDateController,
                         decoration: InputDecoration(
                           labelText: 'Data do vencimento',
                           icon: Icon(Icons.calendar_today),
                         ),
+                        format: DateFormat("dd/MM/yyyy"),
+                        onShowPicker: (context, currentValue) {
+                          return showDatePicker(
+                              context: context,
+                              firstDate: DateTime(1900),
+                              initialDate: currentValue ?? DateTime.now(),
+                              lastDate: DateTime(2100));
+                        },
                         validator: (value) {
-                          if (value.isEmpty)
-                            return 'Informe a data do vencimento desta conta';
+                          if (value.toString().isEmpty)
+                            return 'Informe a data que do vencimento programada';
                           return null;
                         },
                       ),
@@ -144,15 +167,22 @@ class _BillPayScreenState extends State<BillPayScreen> {
                           return null;
                         },
                       ),
-                      TextFormField(
-                        keyboardType: TextInputType.datetime,
+                      DateTimeField(
                         controller: _paidDateController,
                         decoration: InputDecoration(
                           labelText: 'Data do pagamento',
                           icon: Icon(Icons.calendar_today),
                         ),
+                        format: DateFormat("dd/MM/yyyy"),
+                        onShowPicker: (context, currentValue) {
+                          return showDatePicker(
+                              context: context,
+                              firstDate: DateTime(1900),
+                              initialDate: currentValue ?? DateTime.now(),
+                              lastDate: DateTime(2100));
+                        },
                         validator: (value) {
-                          if (value.isEmpty)
+                          if (value == null)
                             return 'Informe a data que o pagamento foi realizado';
                           return null;
                         },

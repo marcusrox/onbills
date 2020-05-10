@@ -16,6 +16,7 @@ https://javiercbk.github.io/json_to_dart/
 import 'imodel.dart';
 
 class BillModel implements IModel {
+  String id;
   String title;
   DateTime dueDate;
   double dueValue;
@@ -24,21 +25,24 @@ class BillModel implements IModel {
   String icon;
   String paymentVoucher;
 
-  BillModel(
-      {this.title,
+  BillModel({
+      this.id,
+      this.title,
       this.dueDate,
       this.dueValue,
       this.paidDate,
       this.paidValue,
       this.icon,
-      this.paymentVoucher});
+      this.paymentVoucher
+  });
 
   BillModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     title = json['title'];
     //dueDate = json['dueDate'];
-    dueDate = DateTime.parse(json['dueDate']);
+    dueDate = DateTime.tryParse(json['dueDate']);
     dueValue = json['dueValue'];
-    paidDate = DateTime.parse(json['paidDate']);
+    paidDate = DateTime.tryParse(json['paidDate']);
     paidValue = json['paidValue'];
     icon = json['icon'];
     paymentVoucher = json['paymentVoucher'];
@@ -46,6 +50,7 @@ class BillModel implements IModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['title'] = this.title;
     //data['dueDate'] = this.dueDate;
     data['dueDate'] = this.dueDate.toString();
@@ -56,4 +61,10 @@ class BillModel implements IModel {
     data['paymentVoucher'] = this.paymentVoucher;
     return data;
   }
+
+  @override
+  String toString() {
+    return toJson().toString();
+  }
+
 }

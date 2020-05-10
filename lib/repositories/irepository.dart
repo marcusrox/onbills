@@ -5,7 +5,8 @@ abstract class IRepository {
 
   IModel get();
 
-  bool insert(IModel model);
+  //bool insert(IModel model);
+  Future<void> insert(IModel bill);
 
   bool update(IModel model);
 

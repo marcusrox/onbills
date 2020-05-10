@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:onbills/models/bill.model.dart';
+import 'package:onbills/repositories/bills.repository.dart';
 import 'package:onbills/utils/utils.dart';
 import 'package:onbills/widgets/OBBottomBar.dart';
 import 'package:intl/intl.dart';
@@ -19,19 +20,21 @@ class BillsScreen extends StatefulWidget {
 
 class _BillsScreenState extends State<BillsScreen> {
   DateTime selectedDate = DateTime.now();
-  List bills = [
-    BillModel(title: 'Conta de Luz', dueDate: DateTime.now(), dueValue: 100.9, paidValue: 100.9),
-    BillModel(title: 'Condomínio', dueDate: DateTime.now(), dueValue: 30.9, paidValue: 0.0),
-    BillModel(title: 'VIVO - Internet e TV', dueDate: DateTime.now(), dueValue: 600.1, paidValue: 0.0),
-    BillModel(title: 'Escola Sempre Viva', dueDate: DateTime.now(), dueValue: 700.9, paidValue: 0.0),
-    BillModel(title: 'Cartão BB', dueDate: DateTime.now(), dueValue: 10.2, paidValue: 0.0),
-    BillModel(title: 'Cartão Nubank', dueDate: DateTime.now(), dueValue: 200.9, paidValue: 0.0),
-    BillModel(title: 'Boleto Formatura Vini', dueDate: DateTime.now(), dueValue: 200.9, paidValue: 0.0),
-    BillModel(title: 'Ofertas e Provisões', dueDate: DateTime.now(), dueValue: 200.9, paidValue: 0.0),
-    BillModel(title: 'Cartão Anne', dueDate: DateTime.now(), dueValue: 200.9, paidValue: 0.0),
-    BillModel(title: 'BahiaGás', dueDate: DateTime.now(), dueValue: 200.9, paidValue: 0.0),
-    BillModel(title: 'Dentista Liz', dueDate: DateTime.now(), dueValue: 200.9, paidValue: 0.0),
-  ]; 
+  List<BillModel> bills;
+
+  // List bills = [
+  //   BillModel(title: 'Conta de Luz', dueDate: DateTime.now(), dueValue: 100.9, paidValue: 100.9),
+  //   BillModel(title: 'Condomínio', dueDate: DateTime.now(), dueValue: 30.9, paidValue: 0.0),
+  //   BillModel(title: 'VIVO - Internet e TV', dueDate: DateTime.now(), dueValue: 600.1, paidValue: 0.0),
+  //   BillModel(title: 'Escola Sempre Viva', dueDate: DateTime.now(), dueValue: 700.9, paidValue: 0.0),
+  //   BillModel(title: 'Cartão BB', dueDate: DateTime.now(), dueValue: 10.2, paidValue: 0.0),
+  //   BillModel(title: 'Cartão Nubank', dueDate: DateTime.now(), dueValue: 200.9, paidValue: 0.0),
+  //   BillModel(title: 'Boleto Formatura Vini', dueDate: DateTime.now(), dueValue: 200.9, paidValue: 0.0),
+  //   BillModel(title: 'Ofertas e Provisões', dueDate: DateTime.now(), dueValue: 200.9, paidValue: 0.0),
+  //   BillModel(title: 'Cartão Anne', dueDate: DateTime.now(), dueValue: 200.9, paidValue: 0.0),
+  //   BillModel(title: 'BahiaGás', dueDate: DateTime.now(), dueValue: 200.9, paidValue: 0.0),
+  //   BillModel(title: 'Dentista Liz', dueDate: DateTime.now(), dueValue: 200.9, paidValue: 0.0),
+  // ]; 
   
 
   Future<DateTime> getDate() {
@@ -73,11 +76,21 @@ class _BillsScreenState extends State<BillsScreen> {
     //print(order);
   }
 
+  void _carregarDados() async {
+    BillsRepository br = BillsRepository();
+    bills = await br.getAll();
+    print ("DEBUG: Dados carregados: " + bills.toString());
+
+  }
+
   @override
   void initState () {
     super.initState();
     // Carregar os dados
     print('Carregar os dados!');
+    
+    _carregarDados();
+    
   }
 
   @override
@@ -111,7 +124,7 @@ class _BillsScreenState extends State<BillsScreen> {
           Flexible(
             /* É necessário colocar o Flexible para o ListView.builder funcionar dentro de um Column*/
             child: ListView.builder(
-              itemCount: bills.length,
+              itemCount: bills?.length ?? 0,
               itemBuilder: (context, index) {
                 return ListTile(
                   leading: Icon(
@@ -125,7 +138,8 @@ class _BillsScreenState extends State<BillsScreen> {
                   //trailing: Utils.icon('today'),
                   onTap: () {
                     print('Clicou no Tile');
-                    Get.to(BillPayScreen(subtitle: 'Pagar!!!!!'), duration: Duration.zero);
+
+                    Get.to(BillPayScreen(subtitle: 'Pagar!', billId: '123456'), duration: Duration.zero);
                   }, 
                 );
               },
@@ -138,7 +152,8 @@ class _BillsScreenState extends State<BillsScreen> {
         onPressed: () {
           // Add your onPressed code here!
           setState(() {
-            bills.add(BillModel(title: 'Teste XX', dueDate: DateTime.now(), dueValue: 100.9, paidValue: 100.9));
+            //bills.add(BillModel(title: 'Teste XX', dueDate: DateTime.now(), dueValue: 100.9, paidValue: 100.9));
+            Get.to(BillPayScreen(subtitle: 'Adicionar conta'), duration: Duration.zero);
           });
         },
         child: Icon(Icons.add),
