@@ -22,40 +22,6 @@ class _BillsScreenState extends State<BillsScreen> {
   DateTime selectedDate = DateTime.now();
   List<BillModel> bills;
 
-  // List bills = [
-  //   BillModel(title: 'Conta de Luz', dueDate: DateTime.now(), dueValue: 100.9, paidValue: 100.9),
-  //   BillModel(title: 'Condomínio', dueDate: DateTime.now(), dueValue: 30.9, paidValue: 0.0),
-  //   BillModel(title: 'VIVO - Internet e TV', dueDate: DateTime.now(), dueValue: 600.1, paidValue: 0.0),
-  //   BillModel(title: 'Escola Sempre Viva', dueDate: DateTime.now(), dueValue: 700.9, paidValue: 0.0),
-  //   BillModel(title: 'Cartão BB', dueDate: DateTime.now(), dueValue: 10.2, paidValue: 0.0),
-  //   BillModel(title: 'Cartão Nubank', dueDate: DateTime.now(), dueValue: 200.9, paidValue: 0.0),
-  //   BillModel(title: 'Boleto Formatura Vini', dueDate: DateTime.now(), dueValue: 200.9, paidValue: 0.0),
-  //   BillModel(title: 'Ofertas e Provisões', dueDate: DateTime.now(), dueValue: 200.9, paidValue: 0.0),
-  //   BillModel(title: 'Cartão Anne', dueDate: DateTime.now(), dueValue: 200.9, paidValue: 0.0),
-  //   BillModel(title: 'BahiaGás', dueDate: DateTime.now(), dueValue: 200.9, paidValue: 0.0),
-  //   BillModel(title: 'Dentista Liz', dueDate: DateTime.now(), dueValue: 200.9, paidValue: 0.0),
-  // ]; 
-  
-
-  Future<DateTime> getDate() {
-    // Imagine that this function is
-    // more complex and slow.
-
-    return showDatePicker(
-      context: context,
-      //initialDatePickerMode: DatePickerMode.year,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2018),
-      lastDate: DateTime(2030),
-      builder: (BuildContext context, Widget child) {
-        return Theme(
-          data: ThemeData.light(),
-          child: child,
-        );
-      },
-    );
-  }
-
   void onSelectMonth() async {
     showMonthPicker(
       context: context,
@@ -72,15 +38,13 @@ class _BillsScreenState extends State<BillsScreen> {
       }
     });
 
-    //var order = await getDate();
-    //print(order);
   }
 
   void _carregarDados() async {
     BillsRepository br = BillsRepository();
     bills = await br.getAll();
+    setState((){});
     print ("DEBUG: Dados carregados: " + bills.toString());
-
   }
 
   @override
@@ -139,7 +103,7 @@ class _BillsScreenState extends State<BillsScreen> {
                   onTap: () {
                     print('Clicou no Tile');
 
-                    Get.to(BillPayScreen(subtitle: 'Pagar!', billId: '123456'), duration: Duration.zero);
+                    Get.to(BillPayScreen(subtitle: 'Pagar!', billId: bills[index].id), duration: Duration.zero);
                   }, 
                 );
               },
@@ -150,14 +114,9 @@ class _BillsScreenState extends State<BillsScreen> {
       bottomNavigationBar: OBBottomBar(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Add your onPressed code here!
-          setState(() {
-            //bills.add(BillModel(title: 'Teste XX', dueDate: DateTime.now(), dueValue: 100.9, paidValue: 100.9));
-            Get.to(BillPayScreen(subtitle: 'Adicionar conta'), duration: Duration.zero);
-          });
+          Get.to(BillPayScreen(subtitle: 'Adicionar conta'), duration: Duration.zero);
         },
         child: Icon(Icons.add),
-        //backgroundColor: Colors.green,
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:onbills/repositories/DatabaseHelper.dart';
+import 'package:onbills/utils/dialogs.dart';
 import 'package:onbills/widgets/OBBottomBar.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -8,14 +9,20 @@ class SettingsScreen extends StatelessWidget {
 
   SettingsScreen({Key key, this.subtitle = "Ajustes"}) : super(key: key);
 
-  void _excluirDados() {
-    DatabaseHelper.instance.destroyDatabase();
-    Get.snackbar(
-      'Excluir dados',
-      'Banco de dados excluído sucesso!',
-      icon: Icon(Icons.alarm),
-      barBlur: 20,
-    );
+  void _excluirDados(BuildContext context) async {
+
+    final ConfirmAction action = await asyncConfirmDialog(context, 'Deseja realmente excluir?');
+    print("Confirm Action $action");
+
+    if (action == ConfirmAction.Yes) {
+      DatabaseHelper.instance.destroyDatabase();
+      Get.snackbar(
+        'Excluir dados',
+        'Banco de dados excluído sucesso!',
+        icon: Icon(Icons.alarm),
+        barBlur: 20,
+      );
+    }
   }
 
   @override
@@ -23,15 +30,20 @@ class SettingsScreen extends StatelessWidget {
     print('DEBUG: Rodou build() em ' + this.toString());
     return Scaffold(
       appBar: AppBar(title: Text('OnBills - ' + subtitle)),
-      body: Column(
-        children: <Widget>[
-          FlatButton(
-            child: Text('Excluir dados'),
-            onPressed: () {
-              _excluirDados();
-            },
-          ),
-        ],
+      body: Container(
+        alignment: Alignment.center,
+        padding: EdgeInsets.only(top: 50),
+        child: Column(
+          children: <Widget>[
+            Text('Excluir todos os dados deste celular'),
+            RaisedButton(
+              child: Text('Excluir dados'),
+              onPressed: () {
+                _excluirDados(context);
+              },
+            ),
+          ],
+        ),
       ),
       //drawer: OBDrawer(),
       bottomNavigationBar: OBBottomBar(),

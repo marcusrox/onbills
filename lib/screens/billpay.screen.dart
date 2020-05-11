@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'package:onbills/models/bill.model.dart';
 import 'package:intl/intl.dart';
+import 'package:get/get.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:onbills/models/bill.model.dart';
+import 'package:onbills/screens/bills.screen.dart';
 import 'package:onbills/repositories/bills.repository.dart';
 import 'package:onbills/utils/utils.dart';
 
@@ -11,7 +11,8 @@ class BillPayScreen extends StatefulWidget {
   final String subtitle;
   final String billId;
 
-  BillPayScreen({Key key, this.subtitle = "Pagar conta", this.billId}) : super(key: key);
+  BillPayScreen({Key key, this.subtitle = "Pagar conta", this.billId})
+      : super(key: key);
 
   @override
   _BillPayScreenState createState() => _BillPayScreenState();
@@ -22,30 +23,29 @@ class _BillPayScreenState extends State<BillPayScreen> {
   final TextEditingController _titleController = new TextEditingController();
   final TextEditingController _dueDateController = new TextEditingController();
   final TextEditingController _dueValueController = new TextEditingController();
-  final TextEditingController _paidValueController = new TextEditingController();
+  final TextEditingController _paidValueController =
+      new TextEditingController();
   final TextEditingController _paidDateController = new TextEditingController();
 
   BillModel _bill = BillModel();
 
+  _carregarDados() async {
+    _bill = await BillsRepository().get(widget.billId);
+
+    // Colocar os valores formatados para interface nos controllers dos TextFormField
+    _titleController.text = _bill.title;
+    _dueDateController.text = Utils.datetimeToStr(_bill.dueDate);
+    _dueValueController.text = Utils.doubleToStr(_bill.dueValue);
+    _paidDateController.text = Utils.datetimeToStr(_bill.paidDate);
+    _paidValueController.text = Utils.doubleToStr(_bill.paidValue);
+  }
+
   @override
   void initState() {
     super.initState();
-
     print('Carregar os dados!');
-
     if (widget.billId != null) {
-      _bill = BillModel(
-          title: 'Dentista Lizzzz',
-          dueDate: DateTime.now(),
-          dueValue: 200.9,
-          paidValue: null);
-      
-      // Colocar os valores formatados para interface nos controllers dos TextFormField
-      _titleController.text = _bill.title;
-      _dueDateController.text = Utils.datetimeToStr(_bill.dueDate);
-      _dueValueController.text = Utils.doubleToStr(_bill.dueValue);
-      _paidDateController.text = Utils.datetimeToStr(_bill.paidDate);
-      _paidValueController.text = Utils.doubleToStr(_bill.paidValue);
+      _carregarDados();
     }
   }
 
@@ -64,7 +64,9 @@ class _BillPayScreenState extends State<BillPayScreen> {
       print('_submitForm');
 
       if (_formKey.currentState.validate()) {
-        _bill.id = Utils.uniqueKey();
+        if (widget.billId == null) {
+          _bill.id = Utils.uniqueKey();
+        }
         _bill.title = _titleController.text;
         _bill.dueDate = Utils.strToDateTime(_dueDateController.text);
         _bill.dueValue = Utils.strToDouble(_dueValueController.text);
@@ -73,9 +75,10 @@ class _BillPayScreenState extends State<BillPayScreen> {
         //_bill.icon = _iconController.text;
         //_bill.paymentVoucher = _paymentVoucherController.text;
 
+        // O método abaixo tem a capacidade de atualizar o registro se o ID já existir ou criar caso negativo 
         BillsRepository().insert(_bill).then((value) {
           Get.snackbar(
-            'Pagamento registrado',
+            'Conta atualizada',
             'Pagamento de conta registrada com sucesso!',
             icon: Icon(Icons.alarm),
             barBlur: 20,
@@ -89,6 +92,8 @@ class _BillPayScreenState extends State<BillPayScreen> {
           );
         });
         print(_bill.toJson());
+        //Get.back();
+        Get.off(BillsScreen(), duration: Duration.zero);
       }
     }
 

@@ -39,6 +39,9 @@ class _OBBottomBarState extends State<OBBottomBar> {
             break;
           }
           case 3: {
+            Get.defaultDialog(
+
+            );            
             Get.off(SettingsScreen(), duration: Duration.zero);
             break;
           }

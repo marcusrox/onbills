@@ -10,6 +10,7 @@ class DatabaseHelper {
   // torna esta classe singleton
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
+
   // tem somente uma referência ao banco de dados
   static Database _database;
 
@@ -40,6 +41,10 @@ class DatabaseHelper {
     String path = join(documentsDirectory.path, _databaseName);
     print('DEBUG: Excluir aquivo do nanco de dados: ' + path);
     await deleteDatabase(path);
+
+    //Setar para null para permitir novo _initDatabase
+    _database = null;
   }
+
 
 }
