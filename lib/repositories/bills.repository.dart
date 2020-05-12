@@ -1,10 +1,11 @@
 import 'dart:async';
+import 'package:onbills/repositories/irepository.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:onbills/models/bill.model.dart';
 
-import 'DatabaseHelper.dart';
+import 'database_helper.dart';
 
-class BillsRepository {
+class BillsRepository implements IRepository{
 
   Future<List<BillModel>> getAll() async {
     // Get a reference to the database.
@@ -25,12 +26,13 @@ class BillsRepository {
     return Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM bills'));
   }
 
+  //@override
   Future<BillModel> get(String id) async {
     final Database db = await DatabaseHelper.instance.database;
     final List<Map<String, dynamic>> maps = await db.query('bills', where: 'id = ?', whereArgs: [id]);
     return BillModel.fromJson(maps[0]);
   }
-
+ 
   Future<int> insert(BillModel bill) async {
     // Get a reference to the database.
     Database db = await DatabaseHelper.instance.database;

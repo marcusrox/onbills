@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:onbills/repositories/DatabaseHelper.dart';
+import 'package:onbills/repositories/database_helper.dart';
 import 'package:onbills/utils/dialogs.dart';
 import 'package:onbills/widgets/OBBottomBar.dart';
 
