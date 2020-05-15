@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
-import 'package:onbills/controllers/plan.controller.dart';
+import 'package:onbills/controllers/planned.controller.dart';
 import 'package:onbills/screens/planned_form.screen.dart';
 import 'package:onbills/widgets/ob_bottom_bar.dart';
 
 class PlannedScreen extends StatefulWidget {
   final String subtitle;
 
-  PlannedScreen({Key key, this.subtitle = "Plano"}) : super(key: key);
+  PlannedScreen({Key key, this.subtitle = "Plano de Contas"}) : super(key: key);
 
   @override
   _PlannedScreenState createState() => _PlannedScreenState();
@@ -16,12 +16,12 @@ class PlannedScreen extends StatefulWidget {
 
 class _PlannedScreenState extends State<PlannedScreen> {
 
-  PlanController controller;
+  PlannedController controller;
 
   @override
   void initState() {
     super.initState();
-    controller = PlanController(screen: widget);
+    controller = PlannedController(screen: widget);
   }
 
   @override
@@ -36,7 +36,7 @@ class _PlannedScreenState extends State<PlannedScreen> {
           Container(
             alignment: Alignment.center,
             padding: EdgeInsets.only(top: 10),
-            child: Text('Plano de Contas'),
+            child: Text('Defina as contas que você precisa pagar todos os meses'),
           ),
           Flexible(
             /* É necessário colocar o Flexible para o ListView.builder funcionar dentro de um Column*/
