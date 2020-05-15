@@ -4,7 +4,7 @@ import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:onbills/models/bill.model.dart';
 import 'package:onbills/repositories/bills.repository.dart';
 import 'package:onbills/utils/utils.dart';
-import 'package:onbills/widgets/OBBottomBar.dart';
+import 'package:onbills/widgets/ob_bottom_bar.dart';
 import 'package:intl/intl.dart';
 
 import 'bill_form.screen.dart';

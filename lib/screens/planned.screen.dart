@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:onbills/controllers/plan.controller.dart';
 import 'package:onbills/screens/planned_form.screen.dart';
-import 'package:onbills/widgets/OBBottomBar.dart';
+import 'package:onbills/widgets/ob_bottom_bar.dart';
 
 class PlannedScreen extends StatefulWidget {
   final String subtitle;
