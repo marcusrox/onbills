@@ -34,6 +34,9 @@ class DatabaseHelper {
   Future _onCreate(Database db, int version) async {
     await db.execute(
         "CREATE TABLE bills(id TEXT PRIMARY KEY, title TEXT, dueDate TEXT, dueValue REAL, paidDate TEXT, paidValue REAL, icon TEXT, paymentVoucher TEXT)");
+    await db.execute(
+        "CREATE TABLE planned(id TEXT PRIMARY KEY, title TEXT, dueDay INTEGER, dueValue REAL, icon TEXT)");
+
   }
 
   void destroyDatabase() async {

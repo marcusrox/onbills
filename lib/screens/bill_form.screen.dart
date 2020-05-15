@@ -7,25 +7,25 @@ import 'package:onbills/screens/bills.screen.dart';
 import 'package:onbills/repositories/bills.repository.dart';
 import 'package:onbills/utils/utils.dart';
 
-class BillPayScreen extends StatefulWidget {
+class BillFormScreen extends StatefulWidget {
   final String subtitle;
   final String billId;
 
-  BillPayScreen({Key key, this.subtitle = "Pagar conta", this.billId})
+  BillFormScreen({Key key, this.subtitle = "Pagar conta", this.billId})
       : super(key: key);
 
   @override
-  _BillPayScreenState createState() => _BillPayScreenState();
+  _BillFormScreenState createState() => _BillFormScreenState();
 }
 
-class _BillPayScreenState extends State<BillPayScreen> {
+class _BillFormScreenState extends State<BillFormScreen> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _titleController = new TextEditingController();
-  final TextEditingController _dueDateController = new TextEditingController();
-  final TextEditingController _dueValueController = new TextEditingController();
-  final TextEditingController _paidValueController =
+  TextEditingController _titleController = new TextEditingController();
+  TextEditingController _dueDateController = new TextEditingController();
+  TextEditingController _dueValueController = new TextEditingController();
+  TextEditingController _paidValueController =
       new TextEditingController();
-  final TextEditingController _paidDateController = new TextEditingController();
+  TextEditingController _paidDateController = new TextEditingController();
 
   BillModel _bill = BillModel();
   
@@ -181,7 +181,7 @@ class _BillPayScreenState extends State<BillPayScreen> {
   Widget _getFieldTitle() {
     return TextFormField(
       keyboardType: TextInputType.text,
-      //initialValue: _bill.title,
+      initialValue: _bill.title,
       controller: _titleController,
       decoration: InputDecoration(
         labelText: 'Título da conta',

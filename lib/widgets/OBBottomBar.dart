@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:onbills/screens/home.screen.dart';
 import 'package:onbills/screens/bills.screen.dart';
-import 'package:onbills/screens/plan.screen.dart';
+import 'package:onbills/screens/planned.screen.dart';
 import 'package:onbills/screens/settings.screen.dart';
 import 'package:onbills/utils/global.dart';
 
@@ -21,10 +21,8 @@ class _OBBottomBarState extends State<OBBottomBar> {
       currentIndex: Global.selectedIndex,
       type: BottomNavigationBarType.fixed,
       onTap: (int index) {
-        //setState(() {
           Global.selectedIndex = index;
           print("Indice do elemento selecionado: $index");
-        //});
           switch (index) {
           case 0: { 
             Get.off(HomeScreen(subtitle: 'Principal'), duration: Duration.zero);
@@ -35,13 +33,10 @@ class _OBBottomBarState extends State<OBBottomBar> {
             break;
           }
           case 2: {
-            Get.off(PlanScreen(), duration: Duration.zero);
+            Get.off(PlannedScreen(), duration: Duration.zero);
             break;
           }
           case 3: {
-            Get.defaultDialog(
-
-            );            
             Get.off(SettingsScreen(), duration: Duration.zero);
             break;
           }

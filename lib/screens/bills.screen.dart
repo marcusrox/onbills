@@ -7,7 +7,7 @@ import 'package:onbills/utils/utils.dart';
 import 'package:onbills/widgets/OBBottomBar.dart';
 import 'package:intl/intl.dart';
 
-import 'billpay.screen.dart';
+import 'bill_form.screen.dart';
 
 class BillsScreen extends StatefulWidget {
   final String subtitle;
@@ -103,7 +103,7 @@ class _BillsScreenState extends State<BillsScreen> {
                   onTap: () {
                     print('Clicou no Tile');
 
-                    Get.to(BillPayScreen(subtitle: 'Pagar!', billId: bills[index].id), duration: Duration.zero);
+                    Get.to(BillFormScreen(subtitle: 'Pagar!', billId: bills[index].id), duration: Duration.zero);
                   }, 
                 );
               },
@@ -114,7 +114,7 @@ class _BillsScreenState extends State<BillsScreen> {
       bottomNavigationBar: OBBottomBar(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(BillPayScreen(subtitle: 'Adicionar conta'), duration: Duration.zero);
+          Get.to(BillFormScreen(subtitle: 'Adicionar conta'), duration: Duration.zero);
         },
         child: Icon(Icons.add),
       ),

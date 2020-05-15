@@ -4,6 +4,7 @@ JSON para gerar o código
     "title": "Conta de Luz",
     "dueDay": 30,
     "dueValue": 123.51,
+    "icon" "teste"
 }
 
 ATENÇÂO: NÂO ALTERAR O CODIGO ABAIXO. 
