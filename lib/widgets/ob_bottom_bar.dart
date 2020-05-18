@@ -16,11 +16,11 @@ class _OBBottomBarState extends State<OBBottomBar> {
 
   @override
   Widget build(BuildContext context) {
-    print('DEBUG: Rodou build() em ' + this.toString());
+    print('DEBUG: Rodou build() em ${this}');
     return BottomNavigationBar(
       currentIndex: Global.selectedIndex,
       type: BottomNavigationBarType.fixed,
-      onTap: (int index) {
+      onTap: (index) {
           Global.selectedIndex = index;
           print("Indice do elemento selecionado: $index");
           switch (index) {

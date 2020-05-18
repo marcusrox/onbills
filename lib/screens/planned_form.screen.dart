@@ -16,9 +16,9 @@ class _PlannedFormScreenState extends State<PlannedFormScreen> {
   PlannedFormController controller;
   final Map<String, dynamic> formData = {}; 
 
-  TextEditingController _titleController = new TextEditingController();
-  TextEditingController _dueDayController = new TextEditingController();
-  TextEditingController _dueValueController = new TextEditingController();
+  final _titleController = TextEditingController();
+  final _dueDayController = TextEditingController();
+  final _dueValueController = TextEditingController();
    
   @override
   void initState() {
@@ -33,16 +33,16 @@ class _PlannedFormScreenState extends State<PlannedFormScreen> {
   @override
   void dispose() {
     // limpa o no focus quando o form for liberado.
-    print('DEBUG: Rodou dispose() em ' + this.toString());
+    print('DEBUG: Rodou dispose() em ${this}');
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    print('DEBUG: Rodou build() em ' + this.toString());
+    print('DEBUG: Rodou build() em ${this}');
 
     return Scaffold(
-      appBar: AppBar(title: Text('OnBills - ' + widget.subtitle)),
+      appBar: AppBar(title: Text('OnBills - ${widget.subtitle}')),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -59,7 +59,7 @@ class _PlannedFormScreenState extends State<PlannedFormScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         _getFieldTitle(),
-                        _getFieldDueValue(),                        
+                        _getFieldDueValue(),
                         _getFieldDueDay(),
                       ],
                     ),

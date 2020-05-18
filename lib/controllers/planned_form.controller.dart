@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:onbills/models/planned.model.dart';
-import 'package:onbills/repositories/planned.repository.dart';
+//import 'package:onbills/repositories/planned.repository.dart';
 import 'package:onbills/screens/planned_form.screen.dart';
 
 class PlannedFormController {
-  final formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final PlannedFormScreen screen;
-  final PlannedRepository _repo = PlannedRepository();
+  //final PlannedRepository _repo = PlannedRepository();
   PlannedModel planned;
 
   PlannedFormController({this.screen});
@@ -16,7 +16,7 @@ class PlannedFormController {
   }
 
   void deletePlanned() async {
-    print('deletePlanned');
+    print('deletePlanned'); 
   }
 
   void submitForm() {

@@ -73,9 +73,8 @@ class Utils {
 static DateTime strToDateTime(String txtDateTime) {
     //print("---------> txtDateTime: " + txtDateTime);
     if (txtDateTime == null) return null;
-    String strDateISO = txtDateTime.substring(6, 10) + '-' +
-        txtDateTime.substring(3, 5) + '-' +
-        txtDateTime.substring(0, 2);
+    String strDateISO;
+    strDateISO = "${txtDateTime.substring(6, 10)}-${txtDateTime.substring(3, 5)}-${txtDateTime.substring(0, 2)}";
     //print("----------> strDateISO: " + strDateISO);
     DateTime dt = DateTime.tryParse(strDateISO);
     return dt;
@@ -83,7 +82,7 @@ static DateTime strToDateTime(String txtDateTime) {
 
   static String datetimeToStr(DateTime dt) {
     if (dt == null) return '';
-    var formatter = new DateFormat('dd/MM/yyyy');
+    var formatter = DateFormat('dd/MM/yyyy');
     return formatter.format(dt);
   }
 

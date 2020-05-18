@@ -49,16 +49,16 @@ class BillModel implements IModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
+    final data = Map<String, dynamic>();
+    data['id'] = id;
+    data['title'] = title;
     //data['dueDate'] = this.dueDate;
-    data['dueDate'] = this.dueDate.toString();
-    data['dueValue'] = this.dueValue;
-    data['paidDate'] = this.paidDate.toString();
-    data['paidValue'] = this.paidValue;
-    data['icon'] = this.icon;
-    data['paymentVoucher'] = this.paymentVoucher;
+    data['dueDate'] = dueDate.toString();
+    data['dueValue'] = dueValue;
+    data['paidDate'] = paidDate.toString();
+    data['paidValue'] = paidValue;
+    data['icon'] = icon;
+    data['paymentVoucher'] = paymentVoucher;
     return data;
   }
 

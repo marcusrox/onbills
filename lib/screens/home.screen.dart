@@ -9,9 +9,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('DEBUG: Rodou build() em ' + this.toString());
+    print('DEBUG: Rodou build() em ${this}');
     return Scaffold(
-      appBar: AppBar(title: Text('OnBills - ' + subtitle)),
+      appBar: AppBar(title: Text('OnBills - $subtitle')),
       body: Center(child: Text('Tela incial!!!')),
       //drawer: OBDrawer(),
       bottomNavigationBar: OBBottomBar(),

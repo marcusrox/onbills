@@ -25,7 +25,7 @@ class DatabaseHelper {
   _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, _databaseName);
-    print('DEBUG: Arquivo do banco de dados: ' + path);
+    print("DEBUG: Arquivo do banco de dados: $path");
     return await openDatabase(path,
         version: _databaseVersion, onCreate: _onCreate);
   }
@@ -42,7 +42,7 @@ class DatabaseHelper {
   void destroyDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, _databaseName);
-    print('DEBUG: Excluir aquivo do nanco de dados: ' + path);
+    print('DEBUG: Excluir aquivo do nanco de dados: $path');
     await deleteDatabase(path);
 
     //Setar para null para permitir novo _initDatabase

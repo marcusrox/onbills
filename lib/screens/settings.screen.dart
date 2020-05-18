@@ -14,7 +14,7 @@ class SettingsScreen extends StatelessWidget {
     final ConfirmAction action = await asyncConfirmDialog(context, 'Deseja realmente excluir?');
     print("Confirm Action $action");
 
-    if (action == ConfirmAction.Yes) {
+    if (action == ConfirmAction.yes) {
       DatabaseHelper.instance.destroyDatabase();
       Get.snackbar(
         'Excluir dados',
@@ -27,9 +27,9 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('DEBUG: Rodou build() em ' + this.toString());
+    print('DEBUG: Rodou build() em ${this}');
     return Scaffold(
-      appBar: AppBar(title: Text('OnBills - ' + subtitle)),
+      appBar: AppBar(title: Text('OnBills - $subtitle')),
       body: Container(
         alignment: Alignment.center,
         padding: EdgeInsets.only(top: 50),

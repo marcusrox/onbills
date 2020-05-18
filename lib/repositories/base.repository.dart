@@ -28,7 +28,7 @@ class BaseRepository {
   // Esse método usa uma consulta bruta para fornecer a contagem de linhas.
   Future<int> rowCount() async {
     Database db = await DatabaseHelper.instance.database;
-    return Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM ' + tableName));
+    return Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM $tableName'));
   }
 
   Future<int> insertMap(Map<String, dynamic> map) async {

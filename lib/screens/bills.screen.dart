@@ -44,7 +44,7 @@ class _BillsScreenState extends State<BillsScreen> {
     BillsRepository br = BillsRepository();
     bills = await br.getAll();
     setState((){});
-    print ("DEBUG: Dados carregados: " + bills.toString());
+    print ("DEBUG: Dados carregados: $bills");
   }
 
   @override
@@ -59,12 +59,12 @@ class _BillsScreenState extends State<BillsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('DEBUG: Rodou build() em ' + this.toString());
+    print('DEBUG: Rodou build() em ${this}');
     return Scaffold(
       appBar: AppBar(
           title: Row(
         children: <Widget>[
-          Expanded(child: Text('OnBills - ' + widget.subtitle)),
+          Expanded(child: Text('OnBills - ${widget.subtitle}')),
           IconButton(
             icon: Icon(Icons.calendar_today),
             onPressed: onSelectMonth,
@@ -79,9 +79,7 @@ class _BillsScreenState extends State<BillsScreen> {
             //padding: EdgeInsets.all(10),
             //child: Text('Mês ' + selectedDate.month.toString(), style: TextStyle(fontSize: 26.0,))
             child: Text(
-              Utils.monthName(selectedDate.month) +
-                  ' de ' +
-                  selectedDate.year.toString(),
+              "${Utils.monthName(selectedDate.month)}  de ${selectedDate.year.toString()}",
               style: TextStyle(fontSize: 26.0),
             ),
           ),
@@ -90,14 +88,14 @@ class _BillsScreenState extends State<BillsScreen> {
             child: ListView.builder(
               itemCount: bills?.length ?? 0,
               itemBuilder: (context, index) {
+                var subtitle = 'Vence em ${bills[index].dueDate.day.toString().padLeft(2, '0')} - ${NumberFormat.currency(locale: 'pt').format(bills[index].dueValue)}';
                 return ListTile(
                   leading: Icon(
                     Icons.home,
                     size: 40,
                   ),
                   title: Text(bills[index].title),
-                  subtitle: Text('Vence em ' + bills[index].dueDate.day.toString().padLeft(2, '0')  + ' - ' + 
-                                 NumberFormat.currency(locale: 'pt').format(bills[index].dueValue)), // 
+                  subtitle: Text(subtitle), // 
                   trailing: Icon(Icons.keyboard_arrow_right),
                   //trailing: Utils.icon('today'),
                   onTap: () {

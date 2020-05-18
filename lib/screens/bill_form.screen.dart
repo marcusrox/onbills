@@ -20,37 +20,36 @@ class BillFormScreen extends StatefulWidget {
 
 class _BillFormScreenState extends State<BillFormScreen> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _titleController = new TextEditingController();
-  TextEditingController _dueDateController = new TextEditingController();
-  TextEditingController _dueValueController = new TextEditingController();
-  TextEditingController _paidValueController =
-      new TextEditingController();
-  TextEditingController _paidDateController = new TextEditingController();
+  final _titleController = TextEditingController();
+  final _dueDateController = TextEditingController();
+  final _dueValueController = TextEditingController();
+  final _paidValueController = TextEditingController();
+  final _paidDateController = TextEditingController();
 
   BillModel _bill = BillModel();
-  
+
   @override
   void initState() {
     super.initState();
     print('Carregar os dados!');
     if (widget.billId != null) {
-      _carregarDados();
+       _carregarDados();
     }
   }
 
   @override
   void dispose() {
     // limpa o no focus quando o form for liberado.
-    print('DEBUG: Rodou dispose() em ' + this.toString());
+    print("DEBUG: Rodou dispose() em ${this}");
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    print('DEBUG: Rodou build() em ' + this.toString());
-
+    print('DEBUG: Rodou build() em ${this}');
+   
     return Scaffold(
-      appBar: AppBar(title: Text('OnBills - ' + widget.subtitle)),
+      appBar: AppBar(title: Text('OnBills - ${widget.subtitle}')),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -112,7 +111,7 @@ class _BillFormScreenState extends State<BillFormScreen> {
     _bill = await BillsRepository().get(widget.billId);
 
     // Colocar os valores formatados para interface nos controllers dos TextFormField
-    _titleController.text = _bill.title;
+    //_titleController.text = _bill.title;
     _dueDateController.text = Utils.datetimeToStr(_bill.dueDate);
     _dueValueController.text = Utils.doubleToStr(_bill.dueValue);
     _paidDateController.text = Utils.datetimeToStr(_bill.paidDate);
@@ -148,7 +147,7 @@ class _BillFormScreenState extends State<BillFormScreen> {
       if (widget.billId == null) {
         _bill.id = Utils.uniqueKey();
       }
-      _bill.title = _titleController.text;
+      //_bill.title = _titleController.text;
       _bill.dueDate = Utils.strToDateTime(_dueDateController.text);
       _bill.dueValue = Utils.strToDouble(_dueValueController.text);
       _bill.paidDate = Utils.strToDateTime(_paidDateController.text);
@@ -226,8 +225,9 @@ class _BillFormScreenState extends State<BillFormScreen> {
             lastDate: DateTime(2100));
       },
       validator: (value) {
-        if (value.toString().isEmpty)
+        if (value.toString().isEmpty) {
           return 'Informe a data que do vencimento programada';
+        }
         return null;
       },
     );
@@ -265,8 +265,9 @@ class _BillFormScreenState extends State<BillFormScreen> {
             lastDate: DateTime(2100));
       },
       validator: (value) {
-        if (value == null)
+        if (value == null) {
           return 'Informe a data que o pagamento foi realizado';
+        }
         return null;
       },
     );

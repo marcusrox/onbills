@@ -26,10 +26,10 @@ class _PlannedScreenState extends State<PlannedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('DEBUG: Rodou build() em ' + this.toString());
+    print('DEBUG: Rodou build() em ${this}');
     return Scaffold(
       appBar: AppBar(
-          title: Text('OnBills - ' + widget.subtitle),
+          title: Text('OnBills - ${widget.subtitle}'),
       ),
       body: Column(
         children: <Widget>[
@@ -43,14 +43,14 @@ class _PlannedScreenState extends State<PlannedScreen> {
             child: ListView.builder(
               itemCount: controller.planned?.length ?? 0,
               itemBuilder: (context, index) {
+                var subtitle = 'Vence em ${controller.planned[index].dueDay.toString().padLeft(2, '0')} - ${NumberFormat.currency(locale: 'pt').format(controller.planned[index].dueValue)}';
                 return ListTile(
                   leading: Icon(
                     Icons.home,
                     size: 40,
                   ),
                   title: Text(controller.planned[index].title),
-                  subtitle: Text('Vence em ' + controller.planned[index].dueDay.toString().padLeft(2, '0')  + ' - ' + 
-                                 NumberFormat.currency(locale: 'pt').format(controller.planned[index].dueValue)), // 
+                  subtitle: Text(subtitle), // 
                   trailing: Icon(Icons.keyboard_arrow_right),
                   //trailing: Utils.icon('today'),
                   onTap: () {

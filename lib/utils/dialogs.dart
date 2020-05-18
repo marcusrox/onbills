@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 
 // Para criar outros tipso de diálogos: https://www.javatpoint.com/flutter-alert-dialogs
 
-enum ConfirmAction { Yes, No }
+enum ConfirmAction { yes, no }
 
 Future<ConfirmAction> asyncConfirmDialog(BuildContext context, String message) async {
   return showDialog<ConfirmAction>(
     context: context,
     barrierDismissible: false, // user must tap button for close dialog!
-    builder: (BuildContext context) {
+    builder: (context) {
       return AlertDialog(
         title: Text('Confirmação'),
         content: Text(message),
@@ -17,13 +17,13 @@ Future<ConfirmAction> asyncConfirmDialog(BuildContext context, String message) a
           FlatButton(
             child: const Text('Yes'),
             onPressed: () {
-              Navigator.of(context).pop(ConfirmAction.Yes);
+              Navigator.of(context).pop(ConfirmAction.yes);
             },
           ),
           FlatButton(
             child: const Text('No'),
             onPressed: () {
-              Navigator.of(context).pop(ConfirmAction.No);
+              Navigator.of(context).pop(ConfirmAction.no);
             },
           )
         ],

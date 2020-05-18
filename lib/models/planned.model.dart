@@ -38,12 +38,12 @@ class PlannedModel implements IModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['dueDay'] = this.dueValue.toString();
-    data['dueValue'] = this.dueValue.toString();
-    data['icon'] = this.icon;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['id'] = id;
+    data['title'] = title;
+    data['dueDay'] = dueValue.toString();
+    data['dueValue'] = dueValue.toString();
+    data['icon'] = icon;
     return data;
   }
 

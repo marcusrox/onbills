@@ -6,7 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  final appTitle = 'OnBills';
+  final String appTitle = 'OnBills';
 
   @override
   Widget build(BuildContext context) {

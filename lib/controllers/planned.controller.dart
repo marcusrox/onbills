@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+//import 'package:flutter/material.dart';
 import 'package:onbills/models/planned.model.dart';
 import 'package:onbills/repositories/planned.repository.dart';
 import 'package:onbills/screens/planned.screen.dart';
@@ -14,7 +14,7 @@ class PlannedController {
     
   void carregarDados() async {
     planned = await _repo.getAll();
-    print ("DEBUG: Dados carregados: " + planned.toString());
+    print ("DEBUG: Dados carregados: ${planned.toString()}");
   }
 
 }
