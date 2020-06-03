@@ -79,7 +79,7 @@ class _BillsScreenState extends State<BillsScreen> {
             //padding: EdgeInsets.all(10),
             //child: Text('Mês ' + selectedDate.month.toString(), style: TextStyle(fontSize: 26.0,))
             child: Text(
-              "${Utils.monthName(selectedDate.month)}  de ${selectedDate.year.toString()}",
+              "${Utils.monthName(selectedDate.month)} de ${selectedDate.year.toString()}",
               style: TextStyle(fontSize: 26.0),
             ),
           ),

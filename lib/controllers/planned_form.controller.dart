@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:onbills/models/planned.model.dart';
 //import 'package:onbills/repositories/planned.repository.dart';
 import 'package:onbills/screens/planned_form.screen.dart';
+import 'package:onbills/utils/utils.dart';
 
 class PlannedFormController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final PlannedFormScreen screen;
   //final PlannedRepository _repo = PlannedRepository();
   PlannedModel planned;
+  String plannedId;
 
   PlannedFormController({this.screen});
 
@@ -21,6 +23,36 @@ class PlannedFormController {
 
   void submitForm() {
     print('submitForm');
+
+    if (formKey.currentState.validate()) {
+      if (plannedId == null) {
+        planned.id = Utils.uniqueKey();
+      }
+      planned.title = _titleController.text;
+      planned.dueDate = Utils.strToDateTime(_dueDateController.text);
+      planned.dueValue = Utils.strToDouble(_dueValueController.text);
+
+
+      // O método abaixo tem a capacidade de atualizar o registro se o ID já existir ou criar caso negativo
+      BillsRepository().insert(_bill).then((value) {
+        Get.snackbar(
+          'Conta atualizada',
+          'Pagamento de conta registrada com sucesso!',
+          icon: Icon(Icons.alarm),
+          barBlur: 20,
+        );
+      }).catchError((error) {
+        Get.snackbar(
+          'Erro',
+          error.toString(),
+          icon: Icon(Icons.alarm),
+          barBlur: 20,
+        );
+      });
+      print(_bill.toJson());
+      //Get.back();
+      Get.off(BillsScreen(), duration: Duration.zero);
+    }    
   }
 
 /*
